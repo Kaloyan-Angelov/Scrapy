@@ -56,10 +56,10 @@ class MrbrkSpider(scrapy.Spider):
                     classification_to_filter[i+1]).strip()
             # import pdb; pdb.set_trace()
             yield {
-                'image': response.css(
-                    "section.product-single img::attr(src)").get(),
                 'title': response.css("h1::text").get(),
                 "price": {"total": price, "currency": curr},
+                'image': response.css(
+                    "section.product-single img::attr(src)").get(),
                 'classifications': last
             }
         except:
