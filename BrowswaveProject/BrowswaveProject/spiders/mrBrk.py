@@ -21,14 +21,14 @@ class MrbrkSpider(scrapy.Spider):
 
             classification_to_filter = response.css(
                 "div.product-classifications td::text").getall()
-            last = dict()
+            classification = dict()
             for i in range(0, len(classification_to_filter), 2):
                 if "".join(classification_to_filter[i]).strip() == 'Гаранция':
-                    last["".join(classification_to_filter[i]).strip()] =\
+                    classification["".join(classification_to_filter[i]).strip()] =\
                         " ".join("".join(classification_to_filter[i+1])
                                  .strip().split())
                 else:
-                    last["".join(classification_to_filter[i]).strip()] =\
+                    classification["".join(classification_to_filter[i]).strip()] =\
                         "".join(classification_to_filter[i+1]).strip()
 
             yield {
@@ -36,7 +36,7 @@ class MrbrkSpider(scrapy.Spider):
                     "section.product-single img::attr(src)").get(),
                 "price": {"total": price, "currency": curr},
                 'title': response.css("h1::text").get(),
-                'classifications': last
+                'classifications': classification
             }
         except:
             pass
